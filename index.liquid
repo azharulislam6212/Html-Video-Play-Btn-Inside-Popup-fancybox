@@ -1,0 +1,87 @@
+        <div class="video-wrapper-box video-wrapper-js">
+            {% if video_url != blank %}
+                <video  poster="{{ poster_image | img_url:"master" }}">
+                    <source src="{{ video_url }}" type="video/mp4">
+                </video>   
+            {% endif %}
+        
+     
+
+            <a href="javascript:void(0)"
+                class="play-btn"
+                data-id="1">
+                <svg width="49" height="48" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="24.5" cy="24" r="24" fill="white" fill-opacity="0.4"/>
+                    <path d="M18.2998 13.2L35.0998 24L18.2998 34.7999V13.2Z" fill="white"/>
+                    </svg>
+                    
+            </a>
+
+        </div>
+
+
+<style>
+
+.video-wrapper-box{
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.video-wrapper-box video{
+    display: block;
+    width: 100%;
+    height: auto;
+    height: 240px;
+    border-radius: 8px;
+}
+
+
+.play-btn{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.video-wrapper-box.active .play-btn{
+  opacity: 0;
+  visibility: hidden;
+}
+</style>
+
+
+
+<script>
+        $("[data-fancybox]").fancybox({
+            afterShow: function() {
+             $('.video-wrapper-js').find("video").pause(); 
+    
+              this.content.find('video').on('ended', function() {
+                $.fancybox.next();
+              });
+            }
+          });
+
+
+
+        $('.video-wrapper-js').on('click', function(){
+           
+            if($(this).hasClass('active')){
+             $(this).find("video").get(0).pause();
+             $(this).removeClass('active');
+            }else{
+         
+             if ($(".video-wrapper-js.active")) {
+               $(".video-wrapper-js.active").find("video").each(function( index ) {
+                $(this).get(0).pause();
+               });
+               $(".video-wrapper-js.active").removeClass("active")
+           }
+         
+             $(this).find("video").get(0).play();
+             $(this).addClass("active");
+            }
+         
+         });
+
+         </script>
